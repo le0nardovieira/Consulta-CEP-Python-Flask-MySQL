@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Consulta de CEP</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Consulta de CEP</h1>
+
+        <form method="POST">
+
+            <label for="cep">
+                DIGITE O CEP:
+            </label>
+
+            <input
+                type="text"
+                id="cep"
+                name="cep"
+                placeholder="Ex: 14090-100"
+                required
+            >
+
+            <button type="submit">
+                Consultar
+            </button>
+
+        </form>
+
+        {% if erro %}
+            <p class="erro">
+                {{ erro }}
+            </p>
+        {% endif %}
+
+        {% if dados %}
+
+            <div class="resultado">
+
+                <h2>Endereço Encontrado !</h2>
+
+                <p>
+                    <strong>CEP:</strong>
+                    {{ dados.cep }}
+                </p>
+
+                <p>
+                    <strong>Logradouro:</strong>
+                    {{ dados.logradouro }}
+                </p>
+
+                <p>
+                    <strong>Bairro:</strong>
+                    {{ dados.bairro }}
+                </p>
+
+                <p>
+                    <strong>Cidade:</strong>
+                    {{ dados.localidade }}
+                </p>
+
+                <p>
+                    <strong>UF:</strong>
+                    {{ dados.uf }}
+                </p>
+
+                <a
+                    class="botao-maps"
+                    href="https://www.google.com/maps/search/?api=1&query={{ (dados.logradouro ~ ', ' ~ dados.bairro ~ ', ' ~ dados.localidade ~ ' - ' ~ dados.uf ~ ', ' ~ dados.cep) | urlencode }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Abrir no Google Maps
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
